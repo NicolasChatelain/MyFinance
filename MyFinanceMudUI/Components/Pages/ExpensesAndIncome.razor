@@ -1,48 +1,21 @@
 ﻿@page "/expensesandincome"
 @inject Portfolio portfolio
 @inject IDialogService DialogService
+@using MyFinanceMudUI.Components.Charts
 
 
+<MudContainer MaxWidth="MaxWidth.ExtraLarge">
+    <div style="display: flex; flex-direction: row; flex-wrap: wrap; gap: 2vh; padding: 48px">
 
-<MudContainer MaxWidth="MaxWidth.Large">
-    <div style="display: flex; flex-direction: column; gap: 2vh; padding: 48px">
+        <DonutChart ChartData="portfolio.ExpenseWithTypes" DialogTitle="Add an expense." T="ExpenseDialog" U="ExpenseType" />
+        <DonutChart ChartData="portfolio.IncomeWithTypes" DialogTitle="Add an income." T="IncomeDialog" U="IncomeType" />
 
-        <MudPaper Class="pa-4" Elevation="3">
-            <MudButton Variant="Variant.Filled" Size="Size.Large" Color="Color.Primary" OnClick="OpenDialogAsync">Add expense</MudButton>
-            <MudChart ChartType="ChartType.Donut" Width="375px" Height="375px" InputData="@data" InputLabels="@labels">
-                <CustomGraphics>
-                    <text dominant-baseline="middle" fill="black" text-anchor="middle" x="50%" y="50%" font-family="Helvetica" font-size="4">€@portfolio.Expenses.ToString("F2")</text>
-                </CustomGraphics>
-            </MudChart>
-        </MudPaper>
-
-        <MudPaper Class="pa-4" Elevation="3">
-            <MudButton Variant="Variant.Filled" Size="Size.Large" Color="Color.Primary" OnClick="OpenDialogAsync">Add income</MudButton>
-            <MudChart ChartType="ChartType.Donut" Width="375px" Height="375px" InputData="@data" InputLabels="@labels">
-                <CustomGraphics>
-                    <text dominant-baseline="middle" fill="black" text-anchor="middle" x="50%" y="50%" font-family="Helvetica" font-size="4">€@portfolio.Income.ToString("F2")</text>
-                </CustomGraphics>
-            </MudChart>
-        </MudPaper>
 
     </div>
 </MudContainer>
 
 
+
 @code {
-
-    public string[]? labels;
-    public double[] data = { 50, 25, 20, 5 };
-
-    protected override void OnInitialized()
-    {
-        labels = Enum.GetNames(typeof(ExpenseType));
-    }
-
-    private Task OpenDialogAsync()
-    {
-        var options = new DialogOptions { CloseOnEscapeKey = true };
-
-        return DialogService.ShowAsync<IncomeDialog>("Add an expense", options);
-    }
+  
 }

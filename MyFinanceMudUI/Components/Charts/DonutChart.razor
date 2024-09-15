@@ -1,0 +1,75 @@
+﻿@using MyFinanceMudUI.Components.Dialog
+@inject IDialogService DialogService
+@inject Portfolio portfolio
+@typeparam T where T : IComponent
+@typeparam U where U : Enum
+
+<MudPaper Class="pa-4" Elevation="3" Width="800px">
+
+    <MudButton Variant="Variant.Filled" Size="Size.Large" Color="Color.Primary" OnClick="OpenDialogAsync">Add expense</MudButton>
+
+    <MudChart ChartType="ChartType.Donut" Width="400px" Height="400px" InputData="@_data" InputLabels="@_labels" SelectedIndexChanged="LegendSelection">
+        <CustomGraphics>
+            <text dominant-baseline="middle" fill="@AmountColor" text-anchor="middle" x="50%" y="50%" font-family="Helvetica" font-size="4">€@_amount</text>
+        </CustomGraphics>
+    </MudChart>
+</MudPaper>
+
+
+@code {
+
+    [Parameter] public required Dictionary<U, decimal> ChartData { get; set; }
+    [Parameter] public required string DialogTitle { get; set; }
+    [Parameter] public required T DialogType { get; set; }
+    [Parameter] public string AmountColor { get; set; } = "#FAFAFA";
+
+    private string _amount = "0";
+    private double[] _data = Array.Empty<double>();
+    private string[] _labels = Array.Empty<string>();
+    private Action _setData = () => { };
+    private int _index = -1;
+
+    protected override void OnInitialized()
+    {
+        _setData = SetChartData;
+        _setData?.Invoke();
+    }
+
+    private void SetChartData()
+    {
+        _data = ChartData.Values.Select(amount => Convert.ToDouble(amount)).ToArray();
+        _labels = ChartData.Keys.Select(type => type.ToString()).ToArray();
+        _amount = ChartData.Values.Sum().ToString("F2");
+    }
+
+    private async Task OpenDialogAsync()
+    {
+        var options = new DialogOptions { CloseOnEscapeKey = true };
+
+        var dialog = await DialogService.ShowAsync(typeof(T), DialogTitle, options);
+        var result = await dialog.Result;
+
+        if (result is not null && !result.Canceled)
+        {
+            UpdateChart(_setData);
+        }
+    }
+
+    private void UpdateChart(Action method)
+    {
+        method?.Invoke();
+        StateHasChanged();
+    }
+
+    private async Task LegendSelection(int index)
+    {
+        await OpenDetailsDialogAsync();
+    }
+
+    private async Task OpenDetailsDialogAsync()
+    {
+        var dialog = await DialogService.ShowAsync<ExpenseDetailsDialog>();
+        var result = await dialog.Result;
+    }
+
+}

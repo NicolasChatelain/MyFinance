@@ -1,11 +1,11 @@
 ﻿@inject Portfolio portfolio
 
-<MudDialog title="Add an income">
+<MudDialog title="Add an expense">
     <DialogContent>
         <MudStack>
-            <MudTextField @bind-Value="IncomeAmountString" Label="Expense amount" Variant="Variant.Outlined" Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Euro" ErrorText="Input must be numeric" Error="_amountError"></MudTextField>
-            <MudSelect @bind-Value="IncomeTypeString" Variant="Variant.Outlined" Label="Expense type">
-                @foreach (var type in Enum.GetNames(typeof(IncomeType)))
+            <MudTextField @bind-Value="ExpenseAmountString" Label="Expense amount" Variant="Variant.Outlined" Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Euro" ErrorText="Input must be numeric" Error="_amountError"></MudTextField>
+            <MudSelect @bind-Value="ExpenseTypeString" Variant="Variant.Outlined" Label="Expense type">
+                @foreach (var type in Enum.GetNames(typeof(ExpenseType)))
                 {
                     <MudSelectItem Value="type">@type</MudSelectItem>
                 }
@@ -20,19 +20,19 @@
 </MudDialog>
 
 @code {
-
     [CascadingParameter]
     private MudDialogInstance MudDialog { get; set; }
 
-    public string IncomeAmountString { get; set; }
-    public string IncomeTypeString { get; set; }
+    public string ExpenseAmountString { get; set; }
+    public string ExpenseTypeString { get; set; }
     private DateTime? _date = DateTime.Today;
+
     private bool _amountError = false;
 
 
     private async Task Submit()
     {
-        bool success = await portfolio.AddIncome(IncomeAmountString, IncomeTypeString, _date ?? DateTime.Today);
+        bool success = await portfolio.AddExpense(ExpenseAmountString, ExpenseTypeString, _date ?? DateTime.Today);
         if (success)
         {
             MudDialog.Close(DialogResult.Ok(true));
