@@ -1,30 +1,34 @@
 ﻿@inherits LayoutComponentBase
-@using MyFinanceMudUI.Components.Navigation
+@using MudBlazor
 
 <MudThemeProvider IsDarkMode="true" />
-<MudPopoverProvider />
-<MudDialogProvider />
-<MudSnackbarProvider />
 
 <MudLayout>
-    <MudAppBar>
-        <MudIconButton Icon="@Icons.Material.Filled.Menu" Color="Color.Inherit" Edge="Edge.Start" OnClick="@((e) => DrawerToggle())" />
-    </MudAppBar>
-    <MudDrawer @bind-Open="_drawerOpen">
-        <NavMenu />
+    <MudDrawer Open="true"
+               Elevation="2">
+
+        <MudDrawerHeader Style="display: grid; place-items:center">
+            <MudText Typo="Typo.h5" Class="pa-2">
+                LifeTrack
+            </MudText>
+        </MudDrawerHeader>
+
+        <MudNavMenu Rounded="true" Class="pa-2" Color="Color.Info">
+            <MudNavGroup Title="Money">
+                <MudNavLink Href="/expensesandincome" Icon="@Icons.Material.Filled.AttachMoney">Expenses & Income</MudNavLink>
+                <MudNavLink Href="/investing" Icon="@Icons.Material.Filled.ShowChart">Investing</MudNavLink>
+            </MudNavGroup>
+            <MudNavGroup Title="Food">
+                <MudNavLink Href="/calories" Icon="@Icons.Material.Filled.Coffee">Calories</MudNavLink>
+            </MudNavGroup>
+
+        </MudNavMenu>
+
     </MudDrawer>
-    <MudMainContent>
+
+
+    <MudMainContent Class="pa-7">
         @Body
     </MudMainContent>
+
 </MudLayout>
-
-@code {
-    private bool _drawerOpen = true;
-
-    private void DrawerToggle()
-    {
-        _drawerOpen = !_drawerOpen;
-    }
-}
-
-

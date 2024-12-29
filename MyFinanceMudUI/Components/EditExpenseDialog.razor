@@ -1,0 +1,36 @@
+﻿@* @using MyFinanceBL.Model
+@using MudBlazor
+@inject Portfolio portfolio
+
+<MudDialog>
+    <EditForm Model="editableExpense" OnValidSubmit="HandleValidSubmit">
+     
+    </EditForm>
+</MudDialog>
+
+@code {
+    [CascadingParameter] MudDialogInstance MudDialog { get; set; }
+
+    [Parameter] public Expense Expense { get; set; }
+
+    private Expense editableExpense;
+
+    protected override void OnInitialized()
+    {
+        // Create a copy to avoid modifying the original object directly
+        editableExpense = new Expense(Expense.Amount, Expense.MadeAt, Expense.Type, Expense.id);
+
+    }
+
+    private void HandleValidSubmit()
+    {
+        // Perform any validation or processing if needed
+        MudDialog.Close(DialogResult.Ok(editableExpense));
+    }
+
+    private void Cancel()
+    {
+        MudDialog.Cancel();
+    }
+}
+ *@

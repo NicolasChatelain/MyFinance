@@ -134,5 +134,10 @@ namespace MyFinanceBL
         {
             return _incomes;
         }
+
+        public void UpdateExpense(Expense expense)
+        {
+
+        }
     }
 }

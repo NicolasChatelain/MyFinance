@@ -7,7 +7,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MyFinanceBL", "MyFinanceBL\
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DataAccess", "DataAccess\DataAccess.csproj", "{B07E34C2-61C7-49C1-BF6E-C2A41CC2D75E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MyFinanceMudUI", "MyFinanceMudUI\MyFinanceMudUI.csproj", "{8699296F-E706-4EFC-B06E-8E8187907C6B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MyFinanceMudUI", "MyFinanceMudUI\MyFinanceMudUI.csproj", "{8699296F-E706-4EFC-B06E-8E8187907C6B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

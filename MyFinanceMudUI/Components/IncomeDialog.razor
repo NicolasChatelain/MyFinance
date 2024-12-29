@@ -3,8 +3,8 @@
 <MudDialog title="Add an income">
     <DialogContent>
         <MudStack>
-            <MudTextField @bind-Value="IncomeAmountString" Label="Expense amount" Variant="Variant.Outlined" Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Euro" ErrorText="Input must be numeric" Error="_amountError"></MudTextField>
-            <MudSelect @bind-Value="IncomeTypeString" Variant="Variant.Outlined" Label="Expense type">
+            <MudTextField @bind-Value="IncomeAmountString" Label="Income amount" Variant="Variant.Outlined" Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Euro" ErrorText="Input must be numeric" Error="_amountError"></MudTextField>
+            <MudSelect @bind-Value="IncomeTypeString" Variant="Variant.Outlined" Label="Income type">
                 @foreach (var type in Enum.GetNames(typeof(IncomeType)))
                 {
                     <MudSelectItem Value="type">@type</MudSelectItem>

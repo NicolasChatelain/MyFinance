@@ -1,19 +1,15 @@
-﻿@using MyFinanceMudUI.Components.Dialog
-@inject IDialogService DialogService
+﻿@inject IDialogService DialogService
 @inject Portfolio portfolio
 @typeparam T where T : IComponent
 @typeparam U where U : Enum
+@inject NavigationManager nav
 
-<MudPaper Class="pa-4" Elevation="3" Width="800px">
 
-    <MudButton Variant="Variant.Filled" Size="Size.Large" Color="Color.Primary" OnClick="OpenDialogAsync">Add expense</MudButton>
-
-    <MudChart ChartType="ChartType.Donut" Width="400px" Height="400px" InputData="@_data" InputLabels="@_labels" SelectedIndexChanged="LegendSelection">
-        <CustomGraphics>
-            <text dominant-baseline="middle" fill="@AmountColor" text-anchor="middle" x="50%" y="50%" font-family="Helvetica" font-size="4">€@_amount</text>
-        </CustomGraphics>
-    </MudChart>
-</MudPaper>
+<MudChart ChartType="ChartType.Donut" Width="250px" Height="250px" InputData="@_data" InputLabels="@_labels" LegendPosition="Position.Right">
+    <CustomGraphics>
+        <text dominant-baseline="middle" fill="@AmountColor" text-anchor="middle" x="50%" y="50%" font-family="Helvetica" font-size="4">€@_amount</text>
+    </CustomGraphics>
+</MudChart>
 
 
 @code {
@@ -27,7 +23,6 @@
     private double[] _data = Array.Empty<double>();
     private string[] _labels = Array.Empty<string>();
     private Action _setData = () => { };
-    private int _index = -1;
 
     protected override void OnInitialized()
     {
@@ -40,6 +35,11 @@
         _data = ChartData.Values.Select(amount => Convert.ToDouble(amount)).ToArray();
         _labels = ChartData.Keys.Select(type => type.ToString()).ToArray();
         _amount = ChartData.Values.Sum().ToString("F2");
+    }
+
+    public async Task OpenDialogFromParentAsync()
+    {
+        await OpenDialogAsync();
     }
 
     private async Task OpenDialogAsync()
@@ -61,15 +61,11 @@
         StateHasChanged();
     }
 
-    private async Task LegendSelection(int index)
+    private void NavigateToDetails()
     {
-        await OpenDetailsDialogAsync();
+        nav.NavigateTo("expensesandincome/details");
     }
 
-    private async Task OpenDetailsDialogAsync()
-    {
-        var dialog = await DialogService.ShowAsync<ExpenseDetailsDialog>();
-        var result = await dialog.Result;
-    }
+
 
 }

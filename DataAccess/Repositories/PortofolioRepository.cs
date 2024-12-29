@@ -64,7 +64,7 @@ namespace DataAccess.Repositories
 
             try
             {
-                expenses = _context.Expense.AsNoTracking().Select(x => new Expense(x.Amount, x.ExpenseAt, x.Type)).ToList();
+                expenses = _context.Expense.AsNoTracking().Select(x => new Expense(x.Amount, x.ExpenseAt, x.Type, x.Id)).ToList();
             }
             catch
             {
@@ -80,7 +80,7 @@ namespace DataAccess.Repositories
 
             try
             {
-                incomes = _context.Income.AsNoTracking().Select(x => new Income(x.Amount, x.EarnedAt, x.Type)).ToList();
+                incomes = _context.Income.AsNoTracking().Select(x => new Income(x.Amount, x.EarnedAt, x.Type, x.Id)).ToList();
             }
             catch
             {

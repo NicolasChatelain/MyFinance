@@ -1,0 +1,62 @@
+﻿@* @page "/expensesandincome/details"
+@inject Portfolio portfolio
+@using MyFinanceBL.Model
+@inject IDialogService DialogService
+
+<div class="pa-4">
+    <MudTable T="Expense" FixedHeader="true" Items="@portfolio.GetExpenses()" Hover="true" SortLabel="Sort By" Elevation="1" Virtualize="true" RowClass="cursor-pointer" OnRowClick="RowClickEvent" style="overflow: hidden">
+        <ToolBarContent>
+            <MudText Typo="Typo.h6">Expenses</MudText>
+            <MudSpacer />
+            <MudTextField @bind-Value="_searchFilter" Placeholder="Search" Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Search" IconSize="Size.Medium" Class="mt-0"></MudTextField>
+        </ToolBarContent>
+        <HeaderContent>
+            <MudTh>Nr</MudTh>
+            <MudTh><MudTableSortLabel SortBy="new Func<Expense, object>(x => x.Amount)">Amount</MudTableSortLabel></MudTh>
+            <MudTh><MudTableSortLabel SortBy="new Func<Expense, object>(x => x.MadeAt)">Date of expense</MudTableSortLabel></MudTh>
+            <MudTh><MudTableSortLabel SortBy="new Func<Expense, object>(x => x.Type.ToString())">Type of expense</MudTableSortLabel></MudTh>
+        </HeaderContent>
+        <RowTemplate>
+            <MudTd>@context.id</MudTd>
+            <MudTd>€@context.Amount.ToString("F2")</MudTd>
+            <MudTd>@context.MadeAt</MudTd>
+            <MudTd>@context.Type.ToString()</MudTd>
+            <MudTd>
+                <MudIconButton Icon="@Icons.Material.Filled.Edit" Size="Size.Small" Color="Color.Primary" OnClick="() => EditExpense(context)" />
+            </MudTd>
+        </RowTemplate>
+    </MudTable>
+</div>
+
+
+@code {
+    private string _searchFilter = string.Empty;
+
+    private void RowClickEvent(TableRowClickEventArgs<Expense> args)
+    {
+        Console.WriteLine(args.Item?.Amount);
+    }
+
+    private async Task EditExpense(Expense expense)
+    {
+        var parameters = new DialogParameters
+        {
+            ["Expense"] = expense
+        };
+
+        var options = new DialogOptions { CloseButton = true, MaxWidth = MaxWidth.Small, FullWidth = true };
+
+        var dialog = await DialogService.ShowAsync<EditExpenseDialog>("Edit Expense", parameters, options);
+        var result = await dialog.Result;
+
+        if (result is not null && !result.Canceled)
+        {
+            var editedExpense = (Expense)result.Data;
+            portfolio.UpdateExpense(editedExpense);
+            //ApplyFilter();
+            StateHasChanged();
+        }
+    }
+
+}
+ *@

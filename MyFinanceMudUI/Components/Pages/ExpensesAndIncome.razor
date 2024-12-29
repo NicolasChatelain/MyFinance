@@ -4,18 +4,35 @@
 @using MyFinanceMudUI.Components.Charts
 
 
-<MudContainer MaxWidth="MaxWidth.ExtraLarge">
-    <div style="display: flex; flex-direction: row; flex-wrap: wrap; gap: 2vh; padding: 48px">
-
+<MudCard Width="30vw" Style="min-width: 15vw; margin-bottom: 1vh">
+    <MudCardHeader Style="display: grid; place-items: center">
+        <MudText Typo="Typo.h4">Expenses</MudText>
+    </MudCardHeader>
+    <MudCardContent>
         <DonutChart ChartData="portfolio.ExpenseWithTypes" DialogTitle="Add an expense." T="ExpenseDialog" U="ExpenseType" />
+    </MudCardContent>
+    <MudCardActions>
+        <MudButton Class="mx-2" FullWidth="true" Variant="Variant.Filled" Size="Size.Large" Color="Color.Info"><MudIcon Icon="@Icons.Material.Filled.Add" /></MudButton>
+        <MudButton Class="mx-2" FullWidth="true" Variant="Variant.Filled" Size="Size.Large" Color="Color.Info"><MudIcon Icon="@Icons.Material.Filled.RestartAlt" /></MudButton>
+        <MudButton Class="mx-2" FullWidth="true" Variant="Variant.Filled" Size="Size.Large" Color="Color.Info"><MudIcon Icon="@Icons.Material.Filled.Edit" /></MudButton>
+    </MudCardActions>
+</MudCard>
+
+<MudCard Width="30vw" Style="min-width: 15vw">
+    <MudCardHeader Style="display: grid; place-items: center">
+        <MudText Typo="Typo.h4">Income</MudText>
+    </MudCardHeader>
+    <MudCardContent>
         <DonutChart ChartData="portfolio.IncomeWithTypes" DialogTitle="Add an income." T="IncomeDialog" U="IncomeType" />
-
-
-    </div>
-</MudContainer>
-
+    </MudCardContent>
+    <MudCardActions>
+        <MudButton Class="mx-2" FullWidth="true" Variant="Variant.Filled" Size="Size.Large" Color="Color.Info"><MudIcon Icon="@Icons.Material.Filled.Add" /></MudButton>
+        <MudButton Class="mx-2" FullWidth="true" Variant="Variant.Filled" Size="Size.Large" Color="Color.Info"><MudIcon Icon="@Icons.Material.Filled.RestartAlt" /></MudButton>
+        <MudButton Class="mx-2" FullWidth="true" Variant="Variant.Filled" Size="Size.Large" Color="Color.Info"><MudIcon Icon="@Icons.Material.Filled.Edit" /></MudButton>
+    </MudCardActions>
+</MudCard>
 
 
 @code {
-  
+
 }
